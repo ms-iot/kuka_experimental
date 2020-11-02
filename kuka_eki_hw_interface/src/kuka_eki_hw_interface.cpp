@@ -32,6 +32,8 @@
 // Author: Brett Hemes (3M) <brhemes@mmm.com>
 
 
+#include <kuka_eki_hw_interface/kuka_eki_hw_interface.h>
+
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
@@ -39,8 +41,6 @@
 #include <angles/angles.h>
 
 #include <tinyxml.h>
-
-#include <kuka_eki_hw_interface/kuka_eki_hw_interface.h>
 
 
 namespace kuka_eki_hw_interface
