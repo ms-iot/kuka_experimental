@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(kuka_rsi_hw_interface)
 
+if (MSVC)
+add_definitions(/D_CRT_SECURE_NO_WARNINGS)
+add_definitions(/D_WINSOCK_DEPRECATED_NO_WARNINGS)
+set(WS232_LIBRARIES "ws2_32.lib")
+elseif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+endif()
 
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
@@ -48,6 +54,7 @@ target_link_libraries(kuka_hardware_interface
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${TinyXML_LIBRARIES}
+  ${WS232_LIBRARIES}
 )
 
 add_executable(kuka_hardware_interface_node
@@ -56,6 +63,7 @@ add_executable(kuka_hardware_interface_node
 
 target_link_libraries(kuka_hardware_interface_node
   kuka_hardware_interface
+  ${WS232_LIBRARIES}
 )
 
 install(

@@ -44,6 +44,18 @@
 #include <string>
 #include <stdexcept>
 
+#ifdef WIN32
+#include <windows.h>
+#undef ERROR
+#undef OK
+
+#include <winsock2.h>
+
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+typedef int socklen_t;
+
+#else
 // Select includes
 #include <sys/time.h>
 
@@ -56,6 +68,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#endif
 
 #define BUFSIZE 1024
 
@@ -68,7 +81,7 @@ public:
     if (sockfd_ < 0)
       throw std::runtime_error("Error opening socket: " + std::string(strerror(errno)));
     optval = 1;
-    setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval , sizeof(int));
+    setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR, (const char *)&optval , sizeof(int));
     memset(&serveraddr_, 0, sizeof(serveraddr_));
     serveraddr_.sin_family = AF_INET;
     serveraddr_.sin_addr.s_addr = inet_addr(local_host_.c_str());
@@ -80,7 +93,11 @@ public:
 
   ~UDPServer()
   {
+    #ifdef WIN32
+    closesocket(sockfd_);
+    #else
     close(sockfd_);
+    #endif
   }
 
   bool set_timeout(int millisecs)
