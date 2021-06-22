@@ -2,11 +2,12 @@ cmake_minimum_required(VERSION 2.8.3)
 project(kuka_rsi_hw_interface)
 
 if (MSVC)
-add_definitions(/D_CRT_SECURE_NO_WARNINGS)
-add_definitions(/D_WINSOCK_DEPRECATED_NO_WARNINGS)
-set(WS232_LIBRARIES "ws2_32.lib")
+  add_definitions(/D_CRT_SECURE_NO_WARNINGS)
+  add_definitions(/D_WINSOCK_DEPRECATED_NO_WARNINGS)
+  add_definitions(/DNOGDI)
+  set(WS232_LIBRARIES "ws2_32.lib")
 elseif()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 endif()
 
 find_package(catkin REQUIRED COMPONENTS

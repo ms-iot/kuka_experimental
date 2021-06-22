@@ -46,9 +46,6 @@
 
 #ifdef WIN32
 #include <windows.h>
-#undef ERROR
-#undef OK
-
 #include <winsock2.h>
 
 #include <BaseTsd.h>
